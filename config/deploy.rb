@@ -2,18 +2,21 @@ require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 # require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
-# require 'mina/rvm'    # for rvm support. (http://rvm.io)
+require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
 #   deploy_to    - Path to deploy into.
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
+# set :rvm_path, '/Users/chenc/.rvm/scripts/rvm'
 
 set :domain, 'localhost'
 set :deploy_to, '/Users/chenc/RailsProjects/www'
-set :repository, 'git://...'
+set :repository, 'git@github.com:MichaelRoshen/demo_mina.git'
+set :term_mode, :system
 set :branch, 'master'
+
 
 # For system-wide RVM install.
 #   set :rvm_path, '/usr/local/rvm/bin/rvm'
@@ -23,8 +26,8 @@ set :branch, 'master'
 set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
 
 # Optional settings:
-#   set :user, 'foobar'    # Username in the server to SSH to.
-#   set :port, '30000'     # SSH port number.
+set :user, 'chenc'    # Username in the server to SSH to.
+set :port, '22'     # SSH port number.
 #   set :forward_agent, true     # SSH forward_agent.
 
 # This task is the environment that is loaded for most commands, such as
@@ -35,7 +38,10 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  # invoke :'rvm:use[ruby-1.9.3-p125@default]'
+
+  # Installing gem dependencies using Bundler
+  # command not found: bundle
+  invoke :'rvm:use[ruby-2.2.0@default]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
